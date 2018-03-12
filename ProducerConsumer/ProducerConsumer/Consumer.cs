@@ -7,9 +7,9 @@ namespace ProducerConsumer
     {
         private Storage storage;
         private Logger logger;
-        private int delay;
         private Random random = new Random();
-
+        private int delay;
+        
         public Consumer(Storage storage, Logger logger, int delay)
         {
             this.storage = storage;
@@ -21,24 +21,23 @@ namespace ProducerConsumer
         {
             while (true)
             {
-                lock (Program.@lock)  // Thread safe operation
+                // Check emptyness of storage
+                while (storage.IsEmpty)
                 {
-                    // Check emptyness of storage
-                    if (storage.IsEmpty)
+                    logger.ConsoleWriteLine("Consumer falling to sleep [storage empty]", ConsoleColor.DarkYellow);
+                    lock (Program.@lock)  // Thread safe operation
                     {
-                        logger.ConsoleWriteLine("Consumer falling to sleep [storage empty]", ConsoleColor.Yellow);
-                        Monitor.PulseAll(Program.@lock);
                         Monitor.Wait(Program.@lock);
                     }
+                    logger.ConsoleWriteLine("Consumer awake from sleep", ConsoleColor.DarkYellow);
+                }
 
-                    // Consume
-                    else
-                    {
-                        //bool wasFullBefore = storage.IsFull;
-                        storage.Read();
-                        //if (wasFullBefore) Monitor.PulseAll(Program.@lock);
-                        Thread.Sleep(delay);
-                    }
+                // Consume
+                Thread.Sleep(delay + random.Next(0, delay)*5);
+                storage.Read();
+                lock (Program.@lock)  // Thread safe operation
+                {
+                    Monitor.PulseAll(Program.@lock);
                 }
             }
         }

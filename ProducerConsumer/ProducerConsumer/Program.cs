@@ -15,8 +15,8 @@ namespace ProducerConsumer
         {
             // Settings
             int sizeOfStorage = 10;  // Number of integers in storage
-            int delayProducent = 100;  // In milliseconds
-            int delayConsumer = 1000;  // In milliseconds
+            int delayProducent = 200;  // In milliseconds
+            int delayConsumer = 200;  // In milliseconds
 
             // Create objects
             Logger logger = new Logger();
@@ -31,8 +31,6 @@ namespace ProducerConsumer
             // Start threads
             producentThread.Start();
             consumerThread.Start();
-            producentThread.Join();
-            consumerThread.Join();
 
             // Prevent console from closing
             Console.ReadKey();
