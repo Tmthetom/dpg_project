@@ -21,16 +21,25 @@ namespace ProducerConsumer
         {
             while (true)
             {
-                // Check fullness of storage
-                if (storage.IsFull)
+                lock (Program.@lock)  // Thread safe operation
                 {
-                    logger.ConsoleWriteLine("Producent falling to sleep [storage full]", ConsoleColor.Green);
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                    // Check fullness of storage
+                    if (storage.IsFull)
+                    {
+                        logger.ConsoleWriteLine("Producent falling to sleep [storage full]", ConsoleColor.Green);
+                        Monitor.PulseAll(Program.@lock);
+                        Monitor.Wait(Program.@lock);
+                    }
 
-                // Produce
-                storage.Write(random.Next(0, 10000));
-                Thread.Sleep(delay);
+                    // Produce
+                    else
+                    {
+                        //bool wasEmptyBefore = storage.IsEmpty;
+                        storage.Write(random.Next(0, 10000));
+                        //if (wasEmptyBefore) Monitor.PulseAll(Program.@lock);
+                        Thread.Sleep(delay);
+                    }
+                }
             }
         }
     }

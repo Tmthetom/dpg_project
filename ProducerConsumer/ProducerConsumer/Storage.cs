@@ -5,7 +5,6 @@ namespace ProducerConsumer
 {
     class Storage
     {
-        private Object monitor = new object();  // Monitor object
         private Logger logger;  // Logger for console output
         private List<int> list = new List<int>();  // Storage
         private int size;  // Maximum size of storage
@@ -30,7 +29,7 @@ namespace ProducerConsumer
         /// <param name="number">Number to be added into storage</param>
         public void Write(int number)
         {
-            lock (monitor)  // Thread safe operation
+            lock (Program.@lock)  // Thread safe operation
             {
                 // When storage full, return
                 if (list.Count >= GetSize()) return;
@@ -42,6 +41,9 @@ namespace ProducerConsumer
                 // Check fullness
                 if (list.Count >= GetSize()) IsFull = true;
                 else IsFull = false;
+
+                // Change emptyness
+                if (IsEmpty) IsEmpty = false;
             }
         }
 
@@ -50,7 +52,7 @@ namespace ProducerConsumer
         /// </summary>
         public void Read()
         {
-            lock (monitor)  // Thread safe operation
+            lock (Program.@lock)  // Thread safe operation
             {
                 // When list empty, return
                 if (list.Count <= 0) return;
@@ -58,11 +60,14 @@ namespace ProducerConsumer
                 // Read and remove
                 int number = list[0];  // Read from storage
                 list.RemoveAt(0);  // Remove from storage
-                logger.ConsoleWriteLine("Consumed [" + number + "]", GetStorageVisualization(), ConsoleColor.Red);  // Log
+                logger.ConsoleWriteLine("Consumed [" + number + "]", GetStorageVisualization(), ConsoleColor.Yellow);  // Log
 
                 // Check emptyness 
                 if (list.Count <= 0) IsEmpty = true;
                 else IsEmpty = false;
+
+                // Change fullness
+                if (IsFull) IsFull = false;
             }
         }
 

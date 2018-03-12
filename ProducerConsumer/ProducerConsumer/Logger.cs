@@ -8,8 +8,6 @@ namespace ProducerConsumer
 {
     class Logger
     {
-        private Object monitor = new object();  // Monitor object
-
         /// <summary>
         /// Write line into console with storage info and colored message
         /// </summary>
@@ -17,7 +15,7 @@ namespace ProducerConsumer
         /// <param name="textColor">Color of text</param>
         public void ConsoleWriteLine(string message, ConsoleColor textColor)
         {
-            lock (monitor)  // Thread safe operation
+            lock (Program.@lock)  // Thread safe operation
             {
                 Console.ForegroundColor = textColor;
                 Console.WriteLine("[" + DateTime.Now + "] " + message + " ");
@@ -33,7 +31,7 @@ namespace ProducerConsumer
         /// <param name="textColor">Color of text</param>
         public void ConsoleWriteLine(string message, string visualization, ConsoleColor textColor)
         {
-            lock (monitor)  // Thread safe operation
+            lock (Program.@lock)  // Thread safe operation
             {
                 Console.ForegroundColor = textColor;
                 Console.Write("[" + DateTime.Now + "] " + message + " ");
