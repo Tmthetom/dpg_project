@@ -25,7 +25,7 @@ namespace ProducerConsumer
                 if (storage.IsEmpty)
                 {
                     logger.ConsoleWriteLine("Consumer falling to sleep [storage empty]", ConsoleColor.Red);
-                    Thread.CurrentThread.Abort();
+                    Thread.Sleep(Timeout.Infinite);
                 }
 
                 // Consume

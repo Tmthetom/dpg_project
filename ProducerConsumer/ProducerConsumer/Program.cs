@@ -37,10 +37,5 @@ namespace ProducerConsumer
             // Prevent console from closing
             Console.ReadKey();
         }
-
-        public static void log(int a)
-        {
-
-        }
     }
 }
