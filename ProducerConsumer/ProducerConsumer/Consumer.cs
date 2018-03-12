@@ -33,7 +33,7 @@ namespace ProducerConsumer
                 }
 
                 // Consume
-                Thread.Sleep(delay + random.Next(0, delay)*5);
+                Thread.Sleep(delay + random.Next(0, delay) * 5);  // Try to do random delay
                 storage.Read();
                 lock (Program.@lock)  // Thread safe operation
                 {

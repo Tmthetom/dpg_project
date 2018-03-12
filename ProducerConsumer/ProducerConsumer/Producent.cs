@@ -34,7 +34,7 @@ namespace ProducerConsumer
                 }
 
                 // Produce
-                Thread.Sleep(delay + random.Next(0, delay)*5);
+                Thread.Sleep(delay + random.Next(0, delay) * 5);  // Try to do random delay
                 storage.Write(random.Next(0, 10000));
                 lock (Program.@lock)  // Thread safe operation
                 {

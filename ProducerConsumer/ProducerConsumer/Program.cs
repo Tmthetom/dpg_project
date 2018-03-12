@@ -15,8 +15,8 @@ namespace ProducerConsumer
         {
             // Settings
             int sizeOfStorage = 10;  // Number of integers in storage
-            int delayProducent = 200;  // In milliseconds
-            int delayConsumer = 200;  // In milliseconds
+            int delayProducent = 200;  // In milliseconds (real delay would be around this value)
+            int delayConsumer = 200;  // In milliseconds (real delay would be around this value)
 
             // Create objects
             Logger logger = new Logger();
@@ -27,6 +27,10 @@ namespace ProducerConsumer
             // Create threads
             Thread producentThread = new Thread(new ThreadStart(producent.Produce));
             Thread consumerThread = new Thread(new ThreadStart(consumer.Consume));
+
+            // Set threads as background
+            producentThread.IsBackground = true;
+            consumerThread.IsBackground = true;
 
             // Start threads
             producentThread.Start();
