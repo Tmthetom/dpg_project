@@ -7,6 +7,7 @@
 * Threads (wait, pulse, thread safe)
 * Locks (monitor)
 
+## Examples of console output:
 ![](Screenshots/29103959_10213100218953899_2745105042745851904_o.png "Example of console output")
 
 ![](Screenshots/29133243_10213100211513713_4496307223873454080_n.png "Another example of console output")
