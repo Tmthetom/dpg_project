@@ -76,9 +76,9 @@ namespace ProducerConsumer
             char emptySector = '_';  // Every empty 10%
             string visualization = "";  // Visualization string
 
-            // Get percentage of capacity taken
+            // Get percentage of taken capacity
             int capacity = 0;
-            if (GetSizeTaken() > 0)  // Size taken is greater then 0
+            if (GetSizeTaken() > 0)  // If size taken is greater then 0
             {
                 float onePercentage = (float)(GetSize()) / 100;  // Get one percentage of capacity
                 int numberOfPercentage = (int)(GetSizeTaken() / onePercentage);  // Get current percentage of capacity
@@ -87,19 +87,17 @@ namespace ProducerConsumer
                 capacity = numberOfPercentage + toWholeTen;  // Count capacity rounded to tens
             }
 
-            // Visialize full sectors
+            // Visualize full sectors
             for (int i = 0; i < (capacity / 10); i++)
             {
                 visualization += fullSector;  // Add full sector character
             }
 
-            // Visialize empty sectors
+            // Visualize empty sectors
             for (int i = 0; i < ((100 - capacity) / 10); i++)
             {
                 visualization += emptySector;  // Add empty sector character
             }
-
-            //visualization = capacity + "%";
 
             return "Storage [" + visualization + "] " + GetSizeTaken() + "/" + GetSize();
         }

@@ -13,11 +13,16 @@ namespace ProducerConsumer
 
         static void Main(string[] args)
         {
+            // Settings
+            int sizeOfStorage = 10;  // Number of integers in storage
+            int delayProducent = 100;  // In milliseconds
+            int delayConsumer = 200;  // In milliseconds
+
             // Create objects
             Logger logger = new Logger();
-            Storage storage = new Storage(10, logger);
-            Producent producent = new Producent(storage, logger, 100);
-            Consumer consumer = new Consumer(storage, logger, 200);
+            Storage storage = new Storage(sizeOfStorage, logger);
+            Producent producent = new Producent(storage, logger, delayProducent);
+            Consumer consumer = new Consumer(storage, logger, delayConsumer);
             
             // Create threads
             Thread producentThread = new Thread(new ThreadStart(producent.Produce));
@@ -31,6 +36,11 @@ namespace ProducerConsumer
 
             // Prevent console from closing
             Console.ReadKey();
+        }
+
+        public static void log(int a)
+        {
+
         }
     }
 }
