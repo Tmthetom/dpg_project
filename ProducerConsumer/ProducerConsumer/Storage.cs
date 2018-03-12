@@ -84,7 +84,8 @@ namespace ProducerConsumer
                 int numberOfPercentage = (int)(GetSizeTaken() / onePercentage);  // Get current percentage of capacity
                 int tenTimes = numberOfPercentage / 10;  // How many times there is number 10
                 int toWholeTen = (tenTimes + 1) * 10 - numberOfPercentage;  // How many we need to whole tens (from 8 to 10 we need 2)
-                capacity = numberOfPercentage + toWholeTen;  // Count capacity rounded to tens
+                if (GetSizeTaken() == GetSize()) capacity = numberOfPercentage;  // Fix of bug in my toWholeTen algorithm
+                else capacity = numberOfPercentage + toWholeTen;  // Count capacity rounded to tens
             }
 
             // Visualize full sectors

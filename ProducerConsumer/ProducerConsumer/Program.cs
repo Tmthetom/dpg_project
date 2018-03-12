@@ -14,9 +14,9 @@ namespace ProducerConsumer
         static void Main(string[] args)
         {
             // Settings
-            int sizeOfStorage = 10;  // Number of integers in storage
-            int delayProducent = 100;  // In milliseconds
-            int delayConsumer = 200;  // In milliseconds
+            int sizeOfStorage = 100;  // Number of integers in storage
+            int delayProducent = 10;  // In milliseconds
+            int delayConsumer = 20;  // In milliseconds
 
             // Create objects
             Logger logger = new Logger();
