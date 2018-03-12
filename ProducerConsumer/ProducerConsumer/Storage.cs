@@ -6,16 +6,22 @@ namespace ProducerConsumer
     class Storage
     {
         private Object monitor = new object();  // Monitor object
+        private Logger logger;  // Logger for console output
         private List<int> list = new List<int>();  // Storage
-        private int size;
+        private int size;  // Maximum size of storage
+
+        // Getters as properties
+        public bool IsFull { get; private set; } = false;
+        public bool IsEmpty { get; private set; } = true;
 
         /// <summary>
         /// Create storage for producent and consumer
         /// </summary>
         /// <param name="size">Maximum size of storage</param>
-        public Storage(int size)
+        public Storage(int size, Logger logger)
         {
             this.size = size;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -26,10 +32,16 @@ namespace ProducerConsumer
         {
             lock (monitor)  // Thread safe operation
             {
-                if (list.Count >= GetSize()) return;  // When storage full, return
+                // When storage full, return
+                if (list.Count >= GetSize()) return;
 
+                // Add
                 list.Add(number);  // Add into storage
-                ConsoleWriteLine("Produced [" + number + "]", ConsoleColor.Green);  // Log
+                logger.ConsoleWriteLine("Produced [" + number + "]", GetStorageVisualization(), ConsoleColor.Green);  // Log
+
+                // Check fullness
+                if (list.Count >= GetSize()) IsFull = true;
+                else IsFull = false;
             }
         }
 
@@ -40,25 +52,18 @@ namespace ProducerConsumer
         {
             lock (monitor)  // Thread safe operation
             {
-                if (list.Count <= 0) return;  // When list empty, return
+                // When list empty, return
+                if (list.Count <= 0) return;
 
+                // Read and remove
                 int number = list[0];  // Read from storage
                 list.RemoveAt(0);  // Remove from storage
-                ConsoleWriteLine("Consumed [" + number + "]", ConsoleColor.Red);  // Log
-            }
-        }
+                logger.ConsoleWriteLine("Consumed [" + number + "]", GetStorageVisualization(), ConsoleColor.Red);  // Log
 
-        /// <summary>
-        /// Write line into console with storage info and colored message
-        /// </summary>
-        /// <param name="message">Message to be colored and printed into console</param>
-        /// <param name="textColor">Color of text</param>
-        private void ConsoleWriteLine(string message, ConsoleColor textColor)
-        {
-            Console.ForegroundColor = textColor;
-            Console.Write("[" + DateTime.Now + "] " + message + " ");
-            Console.ResetColor();
-            Console.WriteLine("\t" + GetStorageVisualization());
+                // Check emptyness 
+                if (list.Count <= 0) IsEmpty = true;
+                else IsEmpty = false;
+            }
         }
 
         /// <summary>
@@ -116,12 +121,5 @@ namespace ProducerConsumer
         {
             return list.Count;
         }
-
-        public int isFull()
-        {
-
-        }
-
-        public int is
     }
 }

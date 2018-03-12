@@ -6,12 +6,14 @@ namespace ProducerConsumer
     class Consumer
     {
         private Storage storage;
+        private Logger logger;
         private int delay;
         private Random random = new Random();
 
-        public Consumer(Storage storage, int delay)
+        public Consumer(Storage storage, Logger logger, int delay)
         {
             this.storage = storage;
+            this.logger = logger;
             this.delay = delay;
         }
 
@@ -19,9 +21,17 @@ namespace ProducerConsumer
         {
             while (true)
             {
+                // Check emptyness of storage
+                if (storage.IsEmpty)
+                {
+                    logger.ConsoleWriteLine("Consumer falling to sleep [storage empty]", ConsoleColor.Red);
+                    Thread.CurrentThread.Abort();
+                }
+
+                // Consume
                 storage.Read();
                 Thread.Sleep(delay);
             }
-        }  
+        }
     }
 }

@@ -14,9 +14,10 @@ namespace ProducerConsumer
         static void Main(string[] args)
         {
             // Create objects
-            Storage storage = new Storage(10);
-            Producent producent = new Producent(storage, 100);
-            Consumer consumer = new Consumer(storage, 200);
+            Logger logger = new Logger();
+            Storage storage = new Storage(10, logger);
+            Producent producent = new Producent(storage, logger, 100);
+            Consumer consumer = new Consumer(storage, logger, 200);
             
             // Create threads
             Thread producentThread = new Thread(new ThreadStart(producent.Produce));
