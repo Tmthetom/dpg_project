@@ -14,7 +14,7 @@ namespace ProducerConsumer
         static void Main(string[] args)
         {
             // Settings
-            int sizeOfStorage = 10;  // Number of integers in storage
+            int sizeOfStorage = 100;  // Number of integers in storage
             int delayProducent = 200;  // In milliseconds (real delay would be around this value)
             int delayConsumer = 200;  // In milliseconds (real delay would be around this value)
 
